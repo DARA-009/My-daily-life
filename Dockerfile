@@ -65,8 +65,9 @@ RUN mkdir -p /var/www/html/storage/framework/cache/data \
     && chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
     && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Copy Nginx configuration and entrypoint
-COPY docker/nginx.conf /etc/nginx/sites-available/default
+# Configure Nginx and PHP-FPM
+RUN rm -rf /etc/nginx/sites-enabled/* /etc/nginx/conf.d/* /etc/nginx/sites-available/*
+COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
 COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY docker/php.ini /usr/local/etc/php/conf.d/custom.ini
 COPY docker/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
@@ -74,6 +75,6 @@ COPY docker/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
 # Expose ports for Railway
-EXPOSE 9000 80
+EXPOSE 80 8080 9000
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

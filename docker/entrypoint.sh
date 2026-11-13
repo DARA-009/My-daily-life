@@ -5,15 +5,23 @@ echo "============================================="
 echo " Starting My Daily Life (ជីវិតប្រចាំថ្ងៃរបស់ខ្ញុំ) "
 echo "============================================="
 
-# Railway assigns a dynamic $PORT (default to 9000 which Railway generated, or 80)
-PORT="${PORT:-9000}"
-echo "[1/5] Configuring Nginx to listen on port: $PORT"
-sed -i "s/listen [0-9]\+;/listen $PORT;/g" /etc/nginx/sites-available/default
+# Ensure an APP_KEY is always set even if not yet configured in Railway variables
+if [ -z "$APP_KEY" ]; then
+    echo "Notice: APP_KEY not provided in environment, applying fallback application key."
+    export APP_KEY="base64:v/nVbbB7Lid37bz1Fp/kmM+F6/dr4aK+tJSenBArzO4="
+fi
 
-echo "[2/5] Linking storage..."
+# Railway dynamic port
+PORT="${PORT:-9000}"
+echo "[1/6] Configuring Nginx to listen on Railway port: $PORT..."
+if [ "$PORT" != "80" ] && [ "$PORT" != "9000" ] && [ "$PORT" != "8080" ]; then
+    sed -i "s/listen 80 default_server;/listen $PORT default_server;/g" /etc/nginx/conf.d/default.conf
+fi
+
+echo "[2/6] Linking storage..."
 php artisan storage:link --force || true
 
-echo "[3/5] Checking and running database migrations..."
+echo "[3/6] Checking database environment..."
 # Auto-detect Railway PostgreSQL environment variables
 if [ -z "$DB_HOST" ] && [ -n "$PGHOST" ]; then
     echo "Detected Railway Postgres variables (PGHOST=$PGHOST)"
@@ -37,11 +45,15 @@ else
     echo "Notice: DB_HOST not yet configured, skipping migrations."
 fi
 
-echo "[4/5] Caching application routes and configuration..."
+echo "[4/6] Optimizing Laravel configuration cache..."
 php artisan config:cache || true
 php artisan route:cache || true
 php artisan view:cache || true
 
-echo "[5/5] Launching PHP-FPM and Nginx..."
+echo "[5/6] Starting PHP-FPM daemon..."
 php-fpm -D
+sleep 1
+
+echo "[6/6] Testing and starting Nginx..."
+nginx -t
 exec nginx -g "daemon off;"
