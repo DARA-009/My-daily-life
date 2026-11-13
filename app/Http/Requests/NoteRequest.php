@@ -20,4 +20,11 @@ class NoteRequest extends FormRequest
             'is_pinned'   => ['nullable', 'boolean'],
         ];
     }
+
+    protected function prepareForValidation(): void
+    {
+        if ($this->has('content') && !$this->has('body')) {
+            $this->merge(['body' => $this->input('content')]);
+        }
+    }
 }

@@ -37,6 +37,28 @@
 
             <!-- Main Page Dynamic Content -->
             <main class="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto pb-24 lg:pb-8">
+                @if (session('success'))
+                    <div x-data="{ show: true }" x-show="show" class="mb-6 flex items-center justify-between p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-xl text-sm font-medium shadow-2xs">
+                        <div class="flex items-center gap-2.5">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-emerald-600 shrink-0"></i>
+                            <span>{{ session('success') }}</span>
+                        </div>
+                        <button type="button" @click="show = false" class="text-emerald-500 hover:text-emerald-700">
+                            <i data-lucide="x" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                @endif
+                @if (session('error'))
+                    <div x-data="{ show: true }" x-show="show" class="mb-6 flex items-center justify-between p-4 bg-rose-50 border border-rose-200 text-rose-800 rounded-xl text-sm font-medium shadow-2xs">
+                        <div class="flex items-center gap-2.5">
+                            <i data-lucide="alert-circle" class="w-5 h-5 text-rose-600 shrink-0"></i>
+                            <span>{{ session('error') }}</span>
+                        </div>
+                        <button type="button" @click="show = false" class="text-rose-500 hover:text-rose-700">
+                            <i data-lucide="x" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                @endif
                 {{ $slot ?? '' }}
                 @yield('content')
             </main>

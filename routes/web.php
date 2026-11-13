@@ -118,5 +118,6 @@ Route::middleware('auth')->group(function () {
 
     // Reports & Analytics
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+    Route::get('/reports/export', [ReportController::class, 'exportTransactionsCsv'])->name('reports.export');
     Route::get('/reports/export-transactions', [ReportController::class, 'exportTransactionsCsv'])->name('reports.export.transactions');
 });

@@ -21,7 +21,6 @@ class ActivityRequest extends FormRequest
             'start_time'    => ['required', 'date_format:H:i'],
             'end_time'      => ['required', 'date_format:H:i', 'after:start_time'],
             'status'        => ['nullable', 'in:planned,in_progress,done,skipped'],
-            'is_work'       => ['nullable', 'boolean'],
         ];
     }
 
@@ -29,7 +28,6 @@ class ActivityRequest extends FormRequest
     {
         $this->merge([
             'status' => $this->input('status', 'planned'),
-            'is_work' => $this->boolean('is_work'),
         ]);
     }
 }

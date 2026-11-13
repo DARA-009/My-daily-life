@@ -13,23 +13,52 @@ class WorkController extends Controller
     public function index(Request $request): View
     {
         $user = $request->user();
+        $date = $request->query('date', now()->toDateString());
 
-        // 1. Work Tasks
-        $workTasks = $user->tasks()
+        // 1. Work Tasks / Deliverables
+        $deliverables = $user->tasks()
             ->where('kind', 'work')
             ->orderBy('due_date')
             ->get();
 
-        $completedCount = $workTasks->where('status', 'completed')->count();
-        $pendingCount = $workTasks->where('status', '!=', 'completed')->count();
+        $completedCount = $deliverables->where('status', 'completed')->count();
+        $pendingCount = $deliverables->where('status', '!=', 'completed')->count();
 
         // 2. Work Schedule Activities
-        $todayWorkActivities = $user->activities()
-            ->whereDate('activity_date', now()->toDateString())
-            ->whereHas('category', fn($q) => $q->where('name', 'ilike', '%work%'))
+        $workActivities = $user->activities()
+            ->whereDate('activity_date', $date)
+            ->whereHas('category', function ($sub) {
+                $sub->where('name', 'ilike', '%work%')
+                    ->orWhere('name', 'ilike', '%ការងារ%')
+                    ->orWhere('type', 'work');
+            })
             ->orderBy('start_time')
             ->get();
 
-        return view('work.index', compact('workTasks', 'completedCount', 'pendingCount', 'todayWorkActivities'));
+        $totalMinutes = (int) $workActivities->sum('duration_minutes');
+        $totalHours = round($totalMinutes / 60, 1);
+
+        $workTasks = $deliverables;
+        $todayWorkActivities = $workActivities;
+
+        $workCategory = $user->categories()
+            ->where('type', 'activity')
+            ->where(function ($q) {
+                $q->where('name', 'ilike', '%work%')
+                  ->orWhere('name', 'ilike', '%ការងារ%');
+            })->first();
+
+        return view('work.index', compact(
+            'deliverables',
+            'workTasks',
+            'workActivities',
+            'todayWorkActivities',
+            'completedCount',
+            'pendingCount',
+            'totalHours',
+            'totalMinutes',
+            'workCategory',
+            'date'
+        ));
     }
 }
