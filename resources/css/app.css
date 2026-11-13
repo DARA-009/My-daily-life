@@ -2,8 +2,49 @@
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
+@source '../views/**/*.blade.php';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    /* Brand Color Palette */
+    --color-primary-50: #eff6ff;
+    --color-primary-100: #dbeafe;
+    --color-primary-500: #3b82f6;
+    --color-primary-600: #2563eb;
+    --color-primary-700: #1d4ed8;
+
+    --color-surface: #ffffff;
+    --color-canvas: #f8fafc;
+    --color-text-main: #0f172a;
+    --color-text-secondary: #64748b;
+
+    /* Fonts */
+    --font-khmer: 'Noto Sans Khmer', sans-serif;
+    --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* Base Body Styles */
+body {
+    font-family: var(--font-sans);
+    background-color: var(--color-canvas);
+    color: var(--color-text-main);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Language-specific typographic rhythm for Khmer script */
+html[lang="km"] body {
+    font-family: var(--font-khmer);
+    line-height: 1.7;
+}
+
+/* iOS Safari Dynamic Island & Safe Area Utilities */
+.pt-safe {
+    padding-top: max(1rem, env(safe-area-inset-top));
+}
+
+.pb-safe {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+
+.min-h-screen-dvh {
+    min-height: 100dvh;
 }
