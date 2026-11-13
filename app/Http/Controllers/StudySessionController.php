@@ -43,6 +43,10 @@ class StudySessionController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        $request->merge([
+            'status' => $request->input('status', 'completed'),
+        ]);
+
         $validated = $request->validate([
             'subject_id'   => ['required', 'exists:subjects,id'],
             'session_date' => ['required', 'date'],

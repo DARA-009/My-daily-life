@@ -11,7 +11,7 @@ class Subject extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['name', 'description', 'learning_target', 'target_hours'];
+    protected $fillable = ['user_id', 'name', 'description', 'learning_target', 'target_hours'];
 
     protected $casts = ['target_hours' => 'decimal:1'];
 

@@ -134,8 +134,8 @@
                             <div class="min-w-0 flex-1">
                                 <div class="flex flex-wrap items-center gap-2">
                                     <h3 class="text-sm sm:text-base font-semibold text-slate-900">{{ $session->subject->name ?? 'Subject' }}</h3>
-                                    @if ($session->topic)
-                                        <span class="text-xs text-slate-500">— {{ $session->topic }}</span>
+                                    @if ($session->notes)
+                                        <span class="text-xs text-slate-500">— {{ $session->notes }}</span>
                                     @endif
                                 </div>
                                 <span class="text-xs text-slate-400 mt-0.5 block">
