@@ -31,6 +31,11 @@ Route::get('/locale/{lang}', function ($lang) {
     return redirect()->back();
 })->name('locale.switch');
 
+// Showcase Landing Page
+Route::get('/welcome', function () {
+    return view('welcome');
+})->name('welcome');
+
 // Guest Authentication Routes
 Route::middleware('guest')->group(function () {
     Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
