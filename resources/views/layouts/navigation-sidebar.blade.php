@@ -58,6 +58,14 @@
                 <p class="text-xs font-semibold text-slate-900 truncate">{{ auth()->user()->name ?? 'My Account' }}</p>
                 <p class="text-[10px] text-slate-500 truncate">{{ auth()->user()->email ?? 'user@example.test' }}</p>
             </div>
+            <form method="POST" action="{{ route('logout') }}" class="shrink-0">
+                @csrf
+                <button type="submit" 
+                        class="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors"
+                        title="{{ $locale === 'km' ? 'ចាកចេញ' : 'Sign Out' }}">
+                    <i data-lucide="log-out" class="w-4 h-4"></i>
+                </button>
+            </form>
         </div>
     </div>
 </div>

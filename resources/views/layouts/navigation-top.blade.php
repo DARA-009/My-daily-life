@@ -58,5 +58,15 @@
                 {{ strtoupper(substr(auth()->user()->name ?? 'D', 0, 1)) }}
             </div>
         </a>
+
+        <!-- Logout Form -->
+        <form method="POST" action="{{ route('logout') }}" class="inline">
+            @csrf
+            <button type="submit" 
+                    class="p-2 rounded-lg text-slate-500 hover:text-rose-600 hover:bg-rose-50 transition-colors"
+                    title="{{ $currentLocale === 'km' ? 'ចាកចេញ' : 'Sign Out' }}">
+                <i data-lucide="log-out" class="w-4 h-4"></i>
+            </button>
+        </form>
     </div>
 </div>
