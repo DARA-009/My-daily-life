@@ -15,7 +15,7 @@ RUN npm run build
 # ===================================================
 # Stage 2: Production PHP-FPM + Nginx
 # ===================================================
-FROM php:8.3-fpm-bookworm
+FROM php:8.4-fpm-bookworm
 
 ENV DEBIAN_FRONTEND=noninteractive
 

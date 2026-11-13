@@ -14,7 +14,24 @@ echo "[2/5] Linking storage..."
 php artisan storage:link --force || true
 
 echo "[3/5] Checking and running database migrations..."
-if [ -n "$DB_HOST" ] || [ -n "$DATABASE_URL" ]; then
+# Auto-detect Railway PostgreSQL environment variables
+if [ -z "$DB_HOST" ] && [ -n "$PGHOST" ]; then
+    echo "Detected Railway Postgres variables (PGHOST=$PGHOST)"
+    export DB_CONNECTION="${DB_CONNECTION:-pgsql}"
+    export DB_HOST="$PGHOST"
+    export DB_PORT="${PGPORT:-5432}"
+    export DB_DATABASE="$PGDATABASE"
+    export DB_USERNAME="$PGUSER"
+    export DB_PASSWORD="$PGPASSWORD"
+fi
+
+if [ -n "$DATABASE_URL" ] && [ -z "$DB_URL" ]; then
+    export DB_CONNECTION="${DB_CONNECTION:-pgsql}"
+    export DB_URL="$DATABASE_URL"
+fi
+
+if [ -n "$DB_HOST" ] || [ -n "$DATABASE_URL" ] || [ -n "$PGHOST" ]; then
+    echo "Running database migrations..."
     php artisan migrate --force || echo "Warning: Migration failed, will continue boot."
 else
     echo "Notice: DB_HOST not yet configured, skipping migrations."
