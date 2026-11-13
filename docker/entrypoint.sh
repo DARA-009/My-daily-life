@@ -5,8 +5,8 @@ echo "============================================="
 echo " Starting My Daily Life (ជីវិតប្រចាំថ្ងៃរបស់ខ្ញុំ) "
 echo "============================================="
 
-# Railway assigns a dynamic $PORT (defaults to 80 if not set)
-PORT="${PORT:-80}"
+# Railway assigns a dynamic $PORT (default to 9000 which Railway generated, or 80)
+PORT="${PORT:-9000}"
 echo "[1/5] Configuring Nginx to listen on port: $PORT"
 sed -i "s/listen [0-9]\+;/listen $PORT;/g" /etc/nginx/sites-available/default
 

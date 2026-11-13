@@ -69,10 +69,11 @@ RUN mkdir -p /var/www/html/storage/framework/cache/data \
 COPY docker/nginx.conf /etc/nginx/sites-available/default
 COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY docker/php.ini /usr/local/etc/php/conf.d/custom.ini
+COPY docker/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
 
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
-# Expose port (Railway dynamically injects $PORT)
-EXPOSE 80
+# Expose ports for Railway
+EXPOSE 9000 80
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
