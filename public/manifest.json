@@ -1,0 +1,19 @@
+{
+  "name": "My Daily Life (ជីវិតប្រចាំថ្ងៃរបស់ខ្ញុំ)",
+  "short_name": "Daily Life",
+  "description": "Personal Life, Productivity, and Dual-Currency Finance Management System",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0F172A",
+  "theme_color": "#2563EB",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

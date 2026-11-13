@@ -6,6 +6,16 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ isset($title) ? $title . ' — ' . config('app.name', 'My Daily Life') : config('app.name', 'My Daily Life (ជីវិតប្រចាំថ្ងៃរបស់ខ្ញុំ)') }}</title>
 
+    <!-- PWA & Mobile Web App Meta Tags (iPhone 14 Pro Max Home Screen) -->
+    <link rel="manifest" href="{{ asset('manifest.json') }}">
+    <link rel="icon" type="image/svg+xml" href="{{ asset('icon.svg') }}">
+    <link rel="apple-touch-icon" href="{{ asset('icon.svg') }}">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Daily Life">
+    <meta name="theme-color" content="#2563EB">
+
     <!-- Google Fonts: Inter & Noto Sans Khmer -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
