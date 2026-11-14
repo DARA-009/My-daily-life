@@ -75,6 +75,6 @@ COPY docker/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
 # Expose ports for Railway
-EXPOSE 80 8080 9000
+EXPOSE 80 9000
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

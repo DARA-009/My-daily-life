@@ -12,10 +12,10 @@ if [ -z "$APP_KEY" ]; then
 fi
 
 # Railway dynamic port
-PORT="${PORT:-9000}"
-echo "[1/6] Configuring Nginx to listen on Railway port: $PORT..."
-if [ "$PORT" != "80" ] && [ "$PORT" != "9000" ] && [ "$PORT" != "8080" ]; then
-    sed -i "s/listen 80 default_server;/listen $PORT default_server;/g" /etc/nginx/conf.d/default.conf
+PORT="${PORT:-80}"
+echo "[1/6] Configuring Nginx to listen on port: $PORT"
+if [ "$PORT" != "80" ] && [ "$PORT" != "9000" ]; then
+    sed -i "s/listen 80;/listen $PORT;/g" /etc/nginx/conf.d/default.conf
 fi
 
 echo "[2/6] Linking storage..."
@@ -54,6 +54,6 @@ echo "[5/6] Starting PHP-FPM daemon..."
 php-fpm -D
 sleep 1
 
-echo "[6/6] Testing and starting Nginx..."
+echo "[6/6] Testing and starting Nginx on ports 80 and 9000 (and $PORT)..."
 nginx -t
 exec nginx -g "daemon off;"
